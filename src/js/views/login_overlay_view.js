@@ -20,12 +20,20 @@ var app = app || {};
     render: function render() {},
     events: {
       'click .sign-in-indicator': 'signIn',
-      'keypress #password': 'signInOnEnter'
+      'keypress #password': 'signInOnEnter',
+      'keyup #password': 'toggleIndicator'
+    },
+    toggleIndicator: function toggleIndicator() {
+      var username = this.$username.val().trim();
+      var password = this.$password.val().trim();
+      if (username && password) {
+        this.$indicator.addClass("enabled");
+      } else {
+        this.$indicator.removeClass("enabled");
+      }
     },
     signInOnEnter: function signInOnEnter(e) {
-      if (e.which == ENTER_KEY)  {
-        this.signIn();
-      }
+      if (e.which == ENTER_KEY)  { this.signIn(); }
     },
     signIn: function signIn() {
       var username = this.$username.val().trim();

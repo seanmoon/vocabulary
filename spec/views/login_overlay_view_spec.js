@@ -29,4 +29,15 @@ describe("LoginOverlayView", function() {
       expect(args[1]).toBe("password");
     });
   });
+
+  describe("toggleIndicator", function() {
+    it("should enable the indicator when there's a username and password", function() {
+      expect(view.$indicator.hasClass("enabled")).toBe(false);
+      view.$username.val("sean");
+      view.$password.val("password");
+      view.toggleIndicator();
+
+      expect(view.$indicator.hasClass("enabled")).toBe(true);
+    });
+  });
 });
