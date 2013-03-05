@@ -16,19 +16,24 @@ Cuba.use Rack::Static,
 Dir["./models/**/*.rb"].each { |rb| require rb }
 
 Cuba.define do
-  #TODO: 404 on not found stuff
   on get do
     on "users/:username/words" do |username|
       user = User.find_by_username(username)
+      res["Content-Type"] = "application/json; charset=utf-8"
       res.status = 200
       res.write user.words_json
+    end
+
+    on default do
+      res.status = 404
+      res.write "404 Not Found"
     end
   end
 
   on put do
-    on 'users/:username/words/:id', param("model") do |username, word_id, model|
+    on 'users/:username/words/:id' do |username, word_id|
       word = Word.find(word_id)
-      model = JSON.parse(model)
+      model = JSON.parse(req.body.read)
       word.update(deleted: model["deleted"])
       res.headers.delete("Content-Type")
       res.status = 204
@@ -36,12 +41,13 @@ Cuba.define do
   end
 
   on post do
-    on 'users/:username/words', param("model") do |username, model|
+    on 'users/:username/words' do |username|
       user = User.find_by_username(username)
-      model = JSON.parse(model)
+      model = JSON.parse(req.body.read)
       word_id = Word.create(user_id: user.id, name: model["name"], added_on: model["addedOn"])
       word = Word.find(word_id)
       res.status = 201
+      res["Content-Type"] = "application/json; charset=utf-8"
       response = word.to_attributes.to_json
       res.write response
     end
@@ -61,6 +67,11 @@ Cuba.define do
         res.status = 401
         res.write "Forbidden"
       end
+    end
+
+    on default do
+      res.status = 404
+      res.write "404 Not Found"
     end
   end
 end

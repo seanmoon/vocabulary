@@ -32,10 +32,10 @@ scope do
   test "create word API" do
     User.create(username: "sean")
     params = { name: "hola", addedOn: "1359470665" }
-    params = { model: params.to_json }
 
-    post "/users/sean/words", params
+    post "/users/sean/words", params.to_json, {"HTTP_CONTENT_TYPE" => "application/json"}
 
+    assert_equal "application/json; charset=utf-8", last_response.headers['Content-Type']
     assert_equal 201, last_response.status
   end
 
@@ -45,6 +45,7 @@ scope do
     get "/users/sean/words"
 
     assert_equal "[]", last_response.body
+    assert_equal "application/json; charset=utf-8", last_response.headers['Content-Type']
     assert_equal 200, last_response.status
   end
 
@@ -55,7 +56,7 @@ scope do
     attrs.merge!({ deleted: "true" })
     params = { model: attrs.to_json }
 
-    put "/users/sean/words/#{word_id}", params
+    put "/users/sean/words/#{word_id}", params.to_json, {"HTTP_CONTENT_TYPE" => "application/json"}
 
     assert_equal 204, last_response.status
   end
