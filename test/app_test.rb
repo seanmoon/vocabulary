@@ -31,7 +31,7 @@ scope do
 
   test "create word API" do
     User.create(username: "sean")
-    params = { name: "hola", addedOn: "1359470665" }
+    params = { name: "hola", notes: "this is a greeting", addedOn: "1359470665" }
 
     post "/users/sean/words", params.to_json, {"HTTP_CONTENT_TYPE" => "application/json"}
 
