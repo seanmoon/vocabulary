@@ -37,6 +37,7 @@ scope do
 
     assert_equal "application/json; charset=utf-8", last_response.headers['Content-Type']
     assert_equal 201, last_response.status
+    assert_equal "this is a greeting", JSON.parse(last_response.body)["notes"]
   end
 
   test "get words API" do

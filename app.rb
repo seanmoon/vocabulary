@@ -44,7 +44,12 @@ Cuba.define do
     on 'users/:username/words' do |username|
       user = User.find_by_username(username)
       model = JSON.parse(req.body.read)
-      word_id = Word.create(user_id: user.id, name: model["name"], added_on: model["addedOn"])
+      word_id = Word.create(
+        user_id: user.id,
+        name: model["name"],
+        added_on: model["addedOn"],
+        notes: model["notes"]
+      )
       word = Word.find(word_id)
       res.status = 201
       res["Content-Type"] = "application/json; charset=utf-8"
