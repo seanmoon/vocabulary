@@ -59,10 +59,17 @@ var app = app || {};
       }
     },
     createOnEnter: function createOnEnter(e) {
-      var name = this.$input.val().trim();
-      if (name && e.which == 13) { // enter key
+      var data = this.$input.val().trim();
+      if (data && e.which == 13) { // enter key
         this.$input.val('');
-        app.Words.create({ name: name });
+        data = data.split(":");
+        var name = data[0].trim();
+        if (data.length > 1) {
+          var notes = data[1].trim();
+          app.Words.create({ name: name, notes: notes });
+        } else {
+          app.Words.create({ name: name });
+        }
       }
     },
     addButtonClicked: function addButtonClicked() {

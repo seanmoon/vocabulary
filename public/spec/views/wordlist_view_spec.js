@@ -61,13 +61,16 @@ describe("WordlistView", function() {
           app.Words.fetch = function() {};
         });
 
-        it("should create a word when there is input", function() {
+        it("should create a word when there is input and separate the notes", function() {
           expect(app.Words.models.length).toBe(0);
-          view.$input.val('ok!');
+          view.$input.val('ok!: these are notes');
 
           view.createOnEnter(e);
 
           expect(app.Words.models.length).toBe(1);
+          var word = app.Words.models[0];
+          expect(word.get("name")).toEqual('ok!');
+          expect(word.get("notes")).toEqual('these are notes');
         });
 
         it("should not create a word when there is no input", function() {
