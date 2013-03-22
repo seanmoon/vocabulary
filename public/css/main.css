@@ -163,7 +163,7 @@ input#new_word {
   background-color: white;
 }
 
-.word.deleted .name {
+.word.deleted .name, .word.deleted .notes {
   text-decoration: line-through;
   color: #ccc;
   font-style: italic;
@@ -176,6 +176,19 @@ input#new_word {
 .word > .name {
   margin-left: 38px;
   padding-left: 10px;
+  display: inline;
+}
+
+.word.selected > .notes {
+  color: #777;
+}
+
+.word > .notes {
+  display: inline;
+  padding-left: 5px;
+  font-size: 13px;
+  font-style: italic;
+  color: #aaa;
 }
 
 .word > .left {
