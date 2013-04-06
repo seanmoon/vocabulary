@@ -11,7 +11,8 @@ $db = Sequel.postgres(db_name, host: db_url, username: db_username, password: db
 
 Cuba.use Rack::Static,
   root: "public",
-  urls: ["/favicon.ico", "/index.html", "/js", "/css", "/font", "/img"]
+  urls: ["/favicon.ico", "/js", "/css", "/font", "/img"],
+  index: "index.html"
 
 Dir["./models/**/*.rb"].each { |rb| require rb }
 
